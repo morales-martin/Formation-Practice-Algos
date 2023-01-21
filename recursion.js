@@ -227,19 +227,6 @@ function intExists(arr, int) {
 //  console.log(intExists([1,4,5,6,7,8,2],10))
 //  console.log(intExists([],10))
 
-// Given an integer array and an integer, return how many times the integer exists in the array.
-function countInt(arr, int) {
-  function countIntHelper(arr, int, idx = 0) {
-    if (idx > arr.length - 1) return 0;
-
-    if (arr[idx] === int) return 1 + countIntHelper(arr, int, idx + 1);
-
-    return 0 + countIntHelper(arr, int, idx + 1);
-  }
-
-  return countIntHelper(arr, int);
-}
-
 // console.log(countInt([1,4,5,6,7,7],7)) // 2
 
 // Find mean of an integer array
@@ -423,26 +410,26 @@ getAllSubsequences("abc") == [
 ]
  */
 
-function getAllSubsequences(s) {
-  let process = [];
-  let output = [];
+// function getAllSubsequences(s) {
+//   let process = [];
+//   let output = [];
 
-  function helper(prefix, string) {
-    process.push([prefix, string]);
-    if (string.length == 0) {
-      output.push(prefix);
-    } else {
-      let char = string[0];
-      string = string.substring(1);
-      helper(prefix, string);
-      helper(prefix + char, string);
-      char = char.toUpperCase();
-      helper(prefix + char, string);
-    }
-  }
-  helper("", s);
-  return output;
-}
+//   function helper(prefix, string) {
+//     process.push([prefix, string]);
+//     if (string.length == 0) {
+//       output.push(prefix);
+//     } else {
+//       let char = string[0];
+//       string = string.substring(1);
+//       helper(prefix, string);
+//       helper(prefix + char, string);
+//       char = char.toUpperCase();
+//       helper(prefix + char, string);
+//     }
+//   }
+//   helper("", s);
+//   return output;
+// }
 
 // console.log(getAllSubsequences("abc"))
 
@@ -553,49 +540,17 @@ const findMean = (arr, sum = 0, index = 0) => {
   return findMean(arr, sum + arr[index], index + 1);
 };
 
-function reverseArray(arr, left = 0, right = arr.length - 1) {
-  if (left >= right) {
-    return arr;
-  }
+// function reverseArray(arr, left = 0, right = arr.length - 1) {
+//   if (left >= right) {
+//     return arr;
+//   }
 
-  [arr[left], arr[right]] = [arr[right], arr[left]];
+//   [arr[left], arr[right]] = [arr[right], arr[left]];
 
-  return reverseArray(arr, left + 1, right - 1);
-}
-
-function printXTriangle(n, blanks = 0) {
-  if (n <= 0) return;
-
-  console.log(" ".repeat(blanks) + "X".repeat(n));
-
-  printXTriangle(n - 2, blanks + 1);
-}
-
-function printTriangle(arr, blanks = 0) {
-  if (arr.length === 0) return;
-
-  console.log(" ".repeat(blanks) + arr.join(""));
-  arr.splice(0, 1);
-  arr.splice(arr.length - 1, 1);
-
-  printTriangle(arr, blanks + 1);
-}
-/*
-
-input: array
-
-Base Case: 
-If input is not an array, return input
-
-Recursive Case: 
-Let sum = 0
-Loop through input
-  sum += sumNestedList(element)
-
-return sum;
+//   return reverseArray(arr, left + 1, right - 1);
+// }
 
 
-*/
 const sumNestedList = (arr) => {
   if (!(arr instanceof Array)) return arr;
 

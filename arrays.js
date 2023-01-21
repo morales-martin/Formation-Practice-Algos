@@ -111,23 +111,6 @@ function sumToK(array, k) {
   return false;
 }
 
-function reverse(array) {
-  let p1 = 0;
-  let p2 = array.length - 1;
-
-  let tmp = 0;
-  while (p1 < p2) {
-    tmp = array[p2];
-    array[p2] = array[p1];
-    array[p1] = tmp;
-
-    p1++;
-    p2--;
-  }
-
-  return array;
-}
-
 function selectionSort(array) {
   /*
   
@@ -497,29 +480,6 @@ const minDominoRotations = (tops, bottoms) => {
 // let tops = [2,1,2,4,2,2]
 // let bottoms = [5,2,6,2,3,2]
 // console.log(minDominoRotations(tops, bottoms))
-
-function wa(heights) {
-  let l = 0;
-  let r = heights.length - 1;
-
-  let leftMax = heights[l];
-  let rightMax = heights[r];
-
-  let result = 0;
-
-  while (l < r) {
-    if (leftMax < rightMax) {
-      l++;
-      leftMax = Math.max(leftMax, heights[l]);
-      result += leftMax - heights[l];
-    } else {
-      r--;
-      rightMax = Math.max(rightMax, heights[r]);
-      result += rightMax - heights[r];
-    }
-  }
-  return result;
-}
 
 /*
 Q. Given a string, reverse the string word by word.

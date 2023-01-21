@@ -7,6 +7,7 @@ class TreeNode {
 /**
  *
  * Preorder
+ * Order: [root, left child, right child]
  *
  */
 const preorderT = (root) => {
@@ -29,15 +30,18 @@ const preorderT = (root) => {
 
 const preorderR = (root) => {
   let result = [];
-  function preorderRHelper(root) {
-    if (!root) return;
 
-    result.push(root.val);
+  const dfs = (node) => {
+    if (!node) return;
 
-    preorderRHelper(root.left);
-    preorderRHelper(root.right);
-  }
-  preorderRHelper(root);
+    result.push(node.val);
+
+    dfs(node.left);
+    dfs(node.right);
+  };
+
+  dfs(root);
+
   return result;
 };
 
@@ -80,6 +84,8 @@ let root = new TreeNode(
 );
 
 console.log("Preorder: " + preorderT(root));
-console.log("Preorder: " + preorderR(root));
+// console.log("Preorder: " + preorderR(root));
 console.log("Preorder: " + inorderI(root));
 console.log("Preorder: " + inorderR(root));
+
+
