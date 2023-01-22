@@ -1054,12 +1054,6 @@ function addStars(str) {
   return result + str[str.length - 1];
 }
 
-// console.table([
-//   addStars("hello") == "h*e*l*l*o",
-//   addStars("abc") == "a*b*c",
-//   addStars("ab") == "a*b",
-// ]);
-
 const rotateArray = (nums, k) => {
   if (!(nums instanceof Array) || !nums.length || k === 0) return nums;
   k = k % nums.length;
@@ -1078,8 +1072,21 @@ const rotateArray = (nums, k) => {
   return nums;
 };
 
-console.table([
-  rotateArray([1, 2, 3, 4], 5),
-  rotateArray([1, 2, 3, 4], -5),
-  rotateArray([1, 2, 3], 10),
-]);
+/*
+
+Fisher-Yates shuffle algorithm
+Shift used numbers to back and then decrease size by 1
+
+*/
+Array.prototype.shuffle = function() {
+  // loop through entirety of array
+  let randomIndex;
+  for(let i = this.length - 1; i > 0; i--) {
+    randomIndex = Math.floor(Math.random() * (i+1));
+    [this[i], this[randomIndex]] = [this[randomIndex], this[i]];
+  }
+
+  return this;
+}
+
+console.log([1,2,3,4,5,6,7,8,9,10].shuffle());

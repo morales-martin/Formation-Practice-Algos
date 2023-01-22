@@ -1,9 +1,4 @@
-class ListNode {
-  constructor(val = 0, next = null) {
-    this.val = val;
-    this.next = next;
-  }
-}
+import { TreeNode, ListNode, arrayify, arrayifyTree } from "./Test.js";
 
 function toString(head) {
   if (!(head instanceof ListNode)) return "<empty>";
@@ -15,16 +10,6 @@ function toString(head) {
   }
 
   return parts.join(" -> ");
-}
-
-function arrayify(head) {
-  let ptr = head;
-  var array = [];
-  while (ptr != null) {
-    array.push(ptr.val);
-    ptr = ptr.next;
-  }
-  return array;
 }
 
 function arrayToLL(array) {
@@ -608,83 +593,85 @@ Implement the LRUCache class.
 
 If the number of keys exceeds the capacity from this operation, evict the least recently used key.
 The functions get and put must each run in O(1) average time complexity.
+
+<head><element2><element3><element4><tail>
+
+cache {
+  2: 20,
+  3: 30,
+  4: 40
+}
+
+
 */
 
 class LRUCache {
-  constructor(capacity) {
-    this.capacity = capacity;
+  capacity = 3;
+  constructor() {
+    this.head = new ListNode();
+    this.tail = new ListNode();
 
-    this.cache = new Map();
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
 
-    //left = lru
-    //right = most recent
-    this.left = new ListNode(0, 0);
-    this.right = new ListNode(0, 0);
-
-    this.left.next = this.right;
-    this.right.prev = this.left;
-  }
-
-  delete(node) {
-    let prev = node.prev;
-    let next = node.next;
-
-    prev.next = next;
-    next.prev = prev;
-  }
-
-  insert(node) {
-    let prev = this.right.prev;
-    let next = this.right;
-
-    next.prev = node;
-    prev.next = node;
-
-    node.next = next;
-    node.prev = prev;
+    this.cacheMap = new Map();
   }
 
   get(key) {
-    if (this.cache.has(key)) {
-      this.delete(this.cache.get(key));
-      this.insert(this.cache.get(key));
-      return this.cache.get(key).val;
+    if (this.cacheMap.has(key)) {
+      let currNode = this.cacheMap.get(key);
+
+      // remove currNode from current position
+      currNode.prev.next = currNode.next;
+      currNode.next.prev = currNode.prev;
+
+      // connect new node to tail
+      currNode.next = this.tail;
+      currNode.prev = this.tail.prev;
+
+      // connect tail nodes to currNode
+      this.tail.prev.next = currNode;
+      this.tail.prev = currNode;
+
+      return currNode.val[1];
     }
 
-    return -1;
+    return undefined;
   } // int -> int
 
   put(key, val) {
-    if (this.cache.has(key)) {
-      this.cache.delete(key);
+    let newNode;
+    if (this.cacheMap.size === this.capacity) {
+      let nodeToDelete = this.head.next;
+
+      // remove least used item
+      this.head.next = nodeToDelete.next;
+      this.head.next.prev = this.head;
+
+      this.cacheMap.delete(nodeToDelete.val[0]);
     }
 
-    let newNode = new ListNode(key, val);
-    this.cache.set(key, newNode);
-    this.insert(newNode);
+    newNode = new ListNode([key, val]);
+    this.cacheMap.set(key, newNode);
 
-    if (this.cache.size > this.capacity) {
-      let lru = this.left.next;
-      this.delete(this.cache.get(lru.key));
-      this.cache.delete(lru.key);
-    }
+    newNode.prev = this.tail.prev;
+    newNode.next = this.tail;
+
+    newNode.prev.next = newNode;
+    newNode.next.prev = newNode;
   } // int, int -> int
 }
 
-// // Test Cases
-// let cache = new LRUCache(2)
-
-// // console.log(cache.get(0)) // undefined
-// cache.put(2, 1)
-// cache.put(1, 1)
-// cache.put(2, 3)
-// cache.put(4, 1)
-
-// console.log(cache.get(1)) // 10
-// console.log(cache.get(2)) // 20
-
-// cache.put(4, 40)
-// console.log(cache.get(3)) // undefined because purged when 4 was put in.
+// Test Cases
+let cache = new LRUCache();
+console.log(cache.get(0)); // undefined
+cache.put(1, 10);
+cache.put(2, 20);
+cache.put(3, 30);
+console.log(cache.get(1)); // 10
+console.log(cache.get(2)); // 20
+cache.put(4, 40);
+console.log(cache.get(3)); // undefined because purged when 4 was put in.
 
 /*
 Swapping Nodes in a Linked List
@@ -811,11 +798,11 @@ const zipperLists = (head1, head2) => {
       head2 = head2.next;
     }
     count++;
-    newNode = newNode.next
+    newNode = newNode.next;
   }
 
-  if(head1) newNode.next = head1
-  if(head2) newNode.next = head2
+  if (head1) newNode.next = head1;
+  if (head2) newNode.next = head2;
 
   return dummyNode.next;
 };
@@ -823,4 +810,4 @@ const zipperLists = (head1, head2) => {
 let listA = new ListNode("a", new ListNode("c"));
 let listB = new ListNode("x", new ListNode("y", new ListNode("z")));
 
-console.log(arrayify(zipperLists(listA, listB)));
+// console.log(arrayify(zipperLists(listA, listB)));
