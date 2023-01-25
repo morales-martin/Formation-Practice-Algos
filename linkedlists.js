@@ -1,4 +1,6 @@
-import { TreeNode, ListNode, arrayify, arrayifyTree } from "./Test.js";
+import { Test, TreeNode, ListNode, arrayify, arrayifyTree } from "./Test.js";
+
+let LLTest = new Test("Linked List Test");
 
 function toString(head) {
   if (!(head instanceof ListNode)) return "<empty>";
@@ -663,51 +665,17 @@ class LRUCache {
 }
 
 // Test Cases
+LLTest.startProblem("LRU Cache");
 let cache = new LRUCache();
-console.log(cache.get(0)); // undefined
+LLTest.test(undefined, cache.get(0), 1);
 cache.put(1, 10);
 cache.put(2, 20);
 cache.put(3, 30);
-console.log(cache.get(1)); // 10
-console.log(cache.get(2)); // 20
+LLTest.test(10, cache.get(1), 2);
+LLTest.test(20, cache.get(2), 3);
 cache.put(4, 40);
-console.log(cache.get(3)); // undefined because purged when 4 was put in.
-
-/*
-Swapping Nodes in a Linked List
-
-
-You are given the head of a linked list, and an integer k.
-Return the head of the linked list after swapping the values of the kth node from the beginning and the kth node from the end (the list is 1-indexed).
-
-
-Input: head = [1,2,3,4,5], k = 4
-Output: [1,4,3,2,5]
-
-Input: head = [7,9,6,6,7,8,3,0,9,5], k = 5
-Output: [7,9,6,6,8,7,3,0,9,5]
-
-
-check if head is null
-  return null if head is null
-
-define slow pointer and fast pointer, set values to head 
-for i in range(k):
-  fast pointer = fast pointer.next 
-
-kth_node = fast_pointer 
-
-while fast pointer is not null 
-  fast pointer = fast pointer next 
-  slow pointer = slow pointer next
-** slow pointer should be at kth end of the list 
-
-temp_val = slow pointer.value 
-slow pointer.value = kth_node.value 
-kth_node.value = temp_val 
-
-return head 
-*/
+LLTest.test(undefined, cache.get(3), 4);
+LLTest.endProblem();
 
 function swapKthNodeFromStartAndEnd(head, k) {
   if (head === null) {
@@ -727,9 +695,7 @@ function swapKthNodeFromStartAndEnd(head, k) {
     fastPtr = fastPtr.next;
   }
 
-  let temp_val = slowPtr.val;
-  slowPtr.val = kthNode.val;
-  kthNode.val = temp_val;
+  [slowPtr.val, kthNode.val] = [kthNode.val, slowPtr.val];
 
   return head;
 }
@@ -807,7 +773,55 @@ const zipperLists = (head1, head2) => {
   return dummyNode.next;
 };
 
-let listA = new ListNode("a", new ListNode("c"));
-let listB = new ListNode("x", new ListNode("y", new ListNode("z")));
+// let listA = new ListNode("a", new ListNode("c"));
+// let listB = new ListNode("x", new ListNode("y", new ListNode("z")));
 
 // console.log(arrayify(zipperLists(listA, listB)));
+
+/*
+
+Q. Construct a deep copy of the list containing nodes with a pointer to a random node in the same list.
+
+  Ex. 
+
+  {
+    val: 10,
+    next: 3,
+    random: 4 (node)
+  }
+  =>
+  {
+    val: 3,
+    next: 4,
+    random: 10 (node)
+  }
+  =>
+  {
+    val: 4,
+    next:null,
+    random: 3 (node)
+  }
+*/
+
+function copyRandomList(head) {
+  let oldToNewMap = new Map();
+
+  let curr = head;
+  while (curr) {
+    let newNode = new ListNode(curr.val);
+    oldToNewMap.set(curr, newNode);
+
+    curr = curr.next;
+  }
+
+  curr = head;
+  while (curr) {
+    let currNode = oldToNewMap.get(curr);
+    currNode.next = oldToNewMap.get(curr.next);
+    currNode.random = oldToNewMap.get(curr.random);
+
+    curr = curr.next;
+  }
+
+  return oldToNewMap.get(head);
+}

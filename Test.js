@@ -86,7 +86,7 @@ export class Test {
 
   endProblem() {
     console.log(
-      `\n ${this.current_problem} ScoreL ${this.problem_score} / ${this.problem_count}`
+      `\n ${this.current_problem} Score: ${this.problem_score} / ${this.problem_count}`
     );
 
     if (this.failed_problems.length > 0) {
@@ -99,13 +99,11 @@ export class Test {
   }
 }
 
-let test = new Test("");
-
 export class ListNode {
-  constructor(val = 0, next = null, prev = null) {
+  constructor(val = 0, next = null, random = null) {
     this.val = val;
     this.next = next;
-    this.prev = prev;
+    this.random = random;
   }
 }
 
@@ -117,7 +115,7 @@ export const arrayify = (head) => {
     ptr = ptr.next;
   }
   return array;
-}
+};
 
 export class TreeNode {
   constructor(value = 0, leftChild = null, rightChild = null) {
@@ -145,5 +143,4 @@ export const arrayifyTree = (root) => {
     }
   }
   return array;
-}
-
+};
