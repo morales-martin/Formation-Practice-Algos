@@ -228,19 +228,12 @@ var pruneTree = function (root) {
 };
 
 var maxDepth = function (root) {
-  let maxDepth = 0;
+    if(!root) return 0;
 
-  const dfs = (root, depth = 1) => {
-    if (!root) return;
+    let left = 1 + maxDepth(root.left);
+    let right = 1 + maxDepth(root.right);
 
-    maxDepth = Math.max(maxDepth, depth);
-
-    if (root.left) dfs(root.left, depth + 1);
-    if (root.right) dfs(root.right, depth + 1);
-  };
-
-  dfs(root);
-  return maxDepth;
+    return Math.max(left, right);
 };
 
 function countTree(root) {
