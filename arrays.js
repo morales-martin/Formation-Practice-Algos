@@ -225,19 +225,6 @@ function isMontonic(array) {
 }
 
 function canPlaceFlowers(flowerbed, n) {
-  /*
-
-  [0,0,0,1,0,1] rules: flowers cannot be planted adjacent ([0,1,0])
-
-  plotsAvailable = 0
-  for(1->length - 1)
-    check if i is plotable -> i-1 = 0; i+1 = 0 
-    && i-1 & i+1 must be existent & zero
-    ---> plotsAvailable++
-
-  return n <= plotsAvailable? 
-  */
-
   let plotsAvailable = 0;
   flowerbed.unshift(0);
   flowerbed[flowerbed.length] = 0;
@@ -251,14 +238,6 @@ function canPlaceFlowers(flowerbed, n) {
 }
 
 function numUniques(array) {
-  /*
-
-  Map (key, value)
-  As we're iterating through the array, cross-checking map to see if element has already been added (duplicate).
-  At end we filter the map number of keys with a value of 1 to get unique values.
-
-  */
-
   let arrayMap = new Map();
 
   for (let i = 0; i < array.length; i++) {
@@ -272,57 +251,14 @@ function numUniques(array) {
   return Array.from(arrayMap.values()).filter((c) => c === 1).length;
 }
 
-function bubbleSort(array) {
-  /*
-
-  comparing adjacent elements and swapping so that we end up with the max at the end of the array.
-
-  Loop - iterate n (array length) times
-    Loop - iterate n - 1 times swap
-  ---  
-
-  */
-  for (let i = 0; i < array.length; i++) {
-    for (let j = 0; j < array.length; j++) {
-      const [curr, next] = [array[j], array[j + 1]];
-
-      if (curr > next) {
-        array[j] = next;
-        array[j + 1] = curr;
-      }
-    }
-  }
-
-  return array;
-}
-
-// Give an array, with target x, return number of elements in array that repeat x times.
-
-// Create map containing each value within array and the number of times repeated
-//  create Map(element, numTimesRepeated)
-//  Loop through array
-//    Checking map for element
-//    If exists
-//      find element in map and increment count
-//    Else
-//      Add element to map with count of 1
-//  Loop through the map, pushing to a result array that contains elements that repeat x times
-//
-//  Create result array
-// Loop through map
-//  If numTimesRepeated === x
-//    Push to result array
-//  return result array
-
 /*
 
-[1, 2, 3, 1, 2, 3], 2 => 3
-[1, 2, 3, 1, 2, 3], 3 => 0
-[1, 3, 3, 5, 5, 5, 5, 5, 3], 3 => 1
+  Q. Give an array, with target x, return number of elements in array that repeat x times.
 
+  const elementArray = [1, 2, 3, 1, 2, 3]; 
+  console.log(numElementsRepeatedX(elementArray,2)) // [1,2,3]
 */
 
-const elementArray = [1, 2, 3, 1, 2, 3];
 
 function numElementsRepeatedX(elementArray, target) {
   let repeatCountMap = new Map();
@@ -357,13 +293,6 @@ function everyXth(input, x) {
 }
 
 function maxProfitPotential(prices) {
-  // let profit = 0;
-  // for(let i = 0; i < prices.length - 1; i++) {
-  //   if(prices[i] < prices[i+1]) profit += (prices[i+1] - prices[i])
-  // }
-
-  // return profit
-
   let maxProfit = 0;
   let minPrice = Infinity;
 
@@ -481,34 +410,6 @@ const minDominoRotations = (tops, bottoms) => {
 // let bottoms = [5,2,6,2,3,2]
 // console.log(minDominoRotations(tops, bottoms))
 
-/*
-Q. Given a string, reverse the string word by word.
-
-Note:
-• Remove any extra white space (e.g. "b a" -> "a b" // only keep 1 whitespace).
-• Remove any leading or trailing white spaces (e.g. " Hi " -> "Hi").
-
-Examples:
-• Given a string: "I love programming" // returns: "programming love I"
-• Given a string: " " // returns: ""
-*/
-
-function rw(input) {
-  let inputArray = input.split(" ");
-  let result = [];
-
-  for (let i = inputArray.length - 1; i >= 0; i--) {
-    if (inputArray[i] !== "") result.push(inputArray[i]);
-  }
-
-  return result.join(" ");
-}
-
-// Test Cases
-// console.log("world! hello" === rw("  hello world!  "))
-// console.log("" === rw(""))
-// console.log("" === rw("   "))
-// console.log("a" === rw("  a"))
 
 /*
 Q. Given an array of integers, find all unique triplets (a, b, c) in the array such that their sum equals zero (a + b + c = 0).
@@ -632,14 +533,8 @@ Example:
 [1,2,3] => 6 [1,2,3]
 [1,-5,11,-3] => 8 [11,-3]
 
-Approach:
-Create two global variables
--CurrSum: Current Sum as we are traversing data structure
--Max sum: Max sum so far
-
-Loop through array
--Set current sum to itself + current element OR current element... depending which is larger
--If current sum is greater than our max sum, set max sum to current sum
+console.log(MaxSubarray([1, 2, 3]));
+console.log(MaxSubarray([1, -5, 11, -3,8,6]));
 
 */
 
@@ -656,12 +551,6 @@ const MaxSubarray = (array) => {
   return maxSum;
 };
 
-// console.log(MaxSubarray([1, 2, 3]));
-// console.log(MaxSubarray([1, -5, 11, -3,8,6]));
-
-//      nz
-// [1,0,1,1,0]
-//    i
 function swap(array, target) {
   let nonZeroPointer = 0;
   let swapCount = 0;
@@ -693,24 +582,9 @@ function minSwap(array) {
 
 /*
 
-Prompt
-Given an array, reverse every sub-array formed by consecutive k elements.
+  Prompt
+  Given an array, reverse every sub-array formed by consecutive k elements.
 
-Key points: 
--If k is larger than length of array, reverse entire array
--If length of k is not divisible by k, reverse final group even if length < k
--In place reversal
--If k is 1, return original array
-
-Helper Function
-1. Fed starting index, ending index
-2. Reverses array from start to end
-
-Main Function
-1. Loop with pointer: 0-end of array. Incrementing pointer by k
-  2. Start index is pointer
-  3. End index = Math.min(pointer + k - 1, length of array)
-  4. Call our helper with array and indices (start, end)
 */
 
 function reverseK(arr, k) {
@@ -737,33 +611,6 @@ function reverseK(arr, k) {
 }
 
 /*
-Q. Given a string, return the index of the first occurrence of a target string. Return -1 if the input string does not contain the target string.
-
-Examples:
-• Given a string: "hello", target: "ll" // returns 2
-• Given a string: "formation", target: "afor" // returns -1
-
-Looping through each character of our array
-  -Check if substring of given string starting at char and ending at Math.min(length of target + 1, length of array - 1)
-  -If match to our target, return index of current character
-*/
-
-function strStr(inputString, target) {
-  for (let i = 0; i <= inputString.length - target.length; i++) {
-    if (inputString.substring(i, i + target.length) === target) return i;
-  }
-
-  return -1;
-}
-
-// // Test Cases
-// console.log(2 === strStr("hello", "ll"));
-// console.log(-1 === strStr("", "a"));
-// console.log(0 === strStr("aaaaaaa", "a"));
-// console.log(-1 === strStr("formation", "afor"));
-// console.log(-1 === strStr("formation", "fora"));
-
-/*
 Q. Given an array of 0s, 1s, and 2s, sort them in-place in ascending order.
 
 Examples:
@@ -771,31 +618,7 @@ Examples:
 • Given an array: [0, 2, 1, 0, 1, 2] // returns [0, 0, 1, 1, 2, 2]
 
 */
-/*
 
-Approach 1:
-Implement any sort algo: selection, bubble, insert, merge, etc..
-
-Approach 2:
--Create two pointers: One for left & one for right (left index to swap, right index to swap)
-
-left = 0
-right = array.length - 1
-
-i = 0
--While(l < r && i < array length)
-  -Conditions: 
-    -If element === 0, swap with left
-    -If element === 2, swap with right 
-    
-    -while(left !== 0) left++
-    -while(right !== 0) right++
-                r
-[0, 0, 1, 2, 1, 2]
-                i
-       l
-
-*/
 function dnf(input) {
   if (!input.length) return [];
   let left = 0;
@@ -828,119 +651,6 @@ var array2 = [2, 1, 1, 0];
 // console.log(dnf(array2)); // [0, 1, 1, 2]
 // console.log(dnf(array3)); // [0, 0, 1, 1, 2, 2]
 
-/*
-
-Campus Bikes
-
-On a campus represented as a 2D grid, there are N workers and M bikes, with N <= M. Each worker and bike is a 2D coordinate on this grid.
-Our goal is to assign a bike to each worker. Among the available bikes and workers, we choose the (worker, bike) pair with the shortest Manhattan distance between each other, and assign the bike to that worker. (If there are multiple (worker, bike) pairs with the same shortest Manhattan distance, we choose the pair with the smallest worker index; if there are multiple ways to do that, we choose the pair with the smallest bike index). We repeat this process until there are no available workers.
-The Manhattan distance between two points p1 and p2 is Manhattan(p1, p2) = |p1.x - p2.x| + |p1.y - p2.y|.
-Return a vector ans of length N, where ans[i] is the index (0-indexed) of the bike that the i-th worker is assigned to.
-
-Input: workers = [[0,0],[2,1]], bikes = [[1,2],[3,3]]
-Output: [1,0]
-Explanation: 
-Worker 1 grabs Bike 0 as they are closest (without ties), and Worker 0 is assigned Bike 1. So the output is [1, 0].
-
--# of workers is always <= # of bikes
--If there are ties in MD, choose the smallest worker index (meaning worker with smallest x & y distance)
--If above returns multiple results, choose bike with smallest index
-
-set of taken workers: 
--result = array[# workers]
--Iterate through bikes: 
-  -minMD
-  -minIdx
-  -Iterate through workers
-    if(worker not in set):
-      -Calculate MD
-      -Update MD if less
-  -result[minIdx] = bike index
-  -Add minIdx to set
-
--return result
-*/
-
-function calculateDistance(pointA, pointB) {
-  return Math.abs(pointA[0] - pointB[0]) + Math.abs(pointA[1] - pointB[1]);
-}
-
-const assignBikes = (workers, bikes) => {
-  const result = new Array(workers.length);
-  const workersTaken = new Set();
-  const bikesTaken = new Set();
-
-  while (workersTaken.size < workers.length) {
-    let minBikeIdx = -1;
-    let minWorkerIdx = -1;
-    let minDistance = Infinity;
-
-    for (let i = 0; i < workers.length; i++) {
-      if (workersTaken.has(i)) continue;
-
-      for (let j = 0; j < bikes.length; j++) {
-        if (bikesTaken.has(j)) continue;
-        let bike = bikes[j];
-        let worker = workers[i];
-
-        let md = Math.abs(bike[0] - worker[0]) + Math.abs(bike[1] - worker[1]);
-
-        if (md < minDistance) {
-          minDistance = md;
-          minWorkerIdx = i;
-          minBikeIdx = j;
-        }
-      }
-    }
-    workersTaken.add(minWorkerIdx);
-    bikesTaken.add(minBikeIdx);
-    result[minWorkerIdx] = minBikeIdx;
-  }
-
-  return result;
-};
-
-// let workers = [
-//   [0, 0],
-//   [2, 1],
-// ];
-// let bikes = [
-//   [1, 2],
-//   [3, 3],
-// ];
-// console.log(assignBikes(workers, bikes));
-
-function maxProfitk(k, prices) {
-  let n = prices.length;
-
-  let profit = Array(k + 1)
-    .fill(0)
-    .map((x) => Array(n).fill(0));
-
-  for (i = 1; i <= k; i++) {
-    for (j = 1; j < n; j++) {
-      var max_so_far = 0;
-
-      for (m = 0; m < j; m++)
-        max_so_far = Math.max(
-          max_so_far,
-          prices[j] - prices[m] + profit[i - 1][m]
-        );
-
-      profit[i][j] = Math.max(profit[i][j - 1], max_so_far);
-      console.log(profit);
-    }
-  }
-
-  return profit[k][n - 1];
-}
-
-//[10, 22, 5, 75, 65, 80]
-// console.log(maxProfitk(2, [1,0,3]));
-
-// matrix product
-// spiral order matrix
-
 function reverse(str) {
   let strArray = Array.from(str);
   let left = 0;
@@ -954,45 +664,6 @@ function reverse(str) {
 
   return strArray.join("");
 }
-
-function solution(inputString) {
-  let result = "";
-  let mainPointer = 0;
-  while (mainPointer < inputString.length) {
-    let currentChar = inputString[mainPointer];
-
-    if (currentChar === "(") {
-      let stringToProcess = "";
-      let parenthStack = ["("];
-      mainPointer++;
-
-      while (parenthStack.length) {
-        let char = inputString[mainPointer];
-        if (char === "(") {
-          recursiveCallNeeded = true;
-          stringToProcess += char;
-          parenthStack.push(char);
-        } else if (char === ")") {
-          parenthStack.pop();
-          if (parenthStack.length) {
-            stringToProcess += char;
-          }
-        } else {
-          stringToProcess += char;
-        }
-        mainPointer++;
-      }
-
-      result += reverse(solution(stringToProcess));
-    } else {
-      result += currentChar;
-      mainPointer++;
-    }
-  }
-  return result;
-}
-
-// console.log(solution("(bar(xyz))"))
 
 function partialProduct(arr) {
   if (!arr.length) return arr;
@@ -1034,25 +705,7 @@ function partialProduct(arr) {
 // console.log(partialProduct([1, 2, 0, 4, 0])); // [0,0,0,0,0]
 // console.log(partialProduct([])); // []
 
-/*
-Given a string, insert a star (*) between each character.
 
-Example(s)
-addStars("hello") == "h*e*l*l*o"
-addStars("abc") == "a*b*c"
-addStars("ab") == "a*b"
-
-*/
-
-function addStars(str) {
-  let result = "";
-
-  for (let i = 0; i < str.length - 1; i++) {
-    result += `${str[i]}*`;
-  }
-
-  return result + str[str.length - 1];
-}
 
 const rotateArray = (nums, k) => {
   if (!(nums instanceof Array) || !nums.length || k === 0) return nums;

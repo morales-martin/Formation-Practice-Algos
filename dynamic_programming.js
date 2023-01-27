@@ -241,3 +241,9 @@ var maxProfit = function (prices, k = 2) {
 // console.log(maxProfit([3, 3, 5, 0, 0, 3, 1, 4])); // 6
 // console.log(maxProfit([1, 2, 3, 4, 5])); // 4
 // console.log(maxProfit([7, 6, 4, 3, 1])); // 0
+
+//[10, 22, 5, 75, 65, 80]
+// console.log(maxProfitk(2, [1,0,3]));
+
+// matrix product
+// spiral order matrix
