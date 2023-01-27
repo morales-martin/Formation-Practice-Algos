@@ -1089,4 +1089,39 @@ Array.prototype.shuffle = function() {
   return this;
 }
 
-console.log([1,2,3,4,5,6,7,8,9,10].shuffle());
+// console.log([1,2,3,4,5,6,7,8,9,10].shuffle());
+
+/*
+
+Q. Given a sorted array of unique positive integers and a target integer, 
+    check if the array contains a target using binary search and return its index. 
+    If the array does not contain the target, return -1.
+
+*/
+
+function binarySearch(array, target) {
+  let left = 0;
+  let right = array.length-1;
+  
+  while(left <= right) {
+    let mid = Math.floor((right + left) / 2);
+    if(array[mid] !== target) {
+      if(target > array[mid]) { // target is on right side
+        left = mid+1;
+      }else{ // target is on left side
+        right = mid-1;
+      }
+    }else{
+      return mid;
+    }
+  }
+  
+  return -1
+}
+
+// Test Cases
+// var arrayBS = [1, 2, 3, 6, 8, 13, 113, 153, 200]
+// console.log(binarySearch(arrayBS, 1)) // 0
+// console.log(binarySearch(arrayBS, 200)) // 8
+// console.log(binarySearch(arrayBS, 8)) // 4
+// console.log(binarySearch(arrayBS, 154)) // -1
