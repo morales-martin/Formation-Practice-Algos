@@ -562,33 +562,32 @@ Possible Output:
 */
 
 function completify(root) {
-  
   let queue = [root];
   let nodes = [];
 
-  while(queue.length) {
+  while (queue.length) {
     let currNode = queue.shift();
 
-    nodes.push(currNode)
+    nodes.push(currNode);
 
-    if(currNode.left) queue.push(currNode.left)
-    if(currNode.right) queue.push(currNode.right)
+    if (currNode.left) queue.push(currNode.left);
+    if (currNode.right) queue.push(currNode.right);
 
-    currNode.left = null
-    currNode.right = null
+    currNode.left = null;
+    currNode.right = null;
   }
 
   let newRoot = nodes.pop();
   let nodesToAddChildren = [];
   let currNode = newRoot;
 
-  while(nodes.length) {
+  while (nodes.length) {
     currNode.left = nodes.pop();
-    nodesToAddChildren.push(currNode.left)
+    nodesToAddChildren.push(currNode.left);
 
-    if(nodes.length) {
+    if (nodes.length) {
       currNode.right = nodes.pop();
-      nodesToAddChildren.push(currNode.right)
+      nodesToAddChildren.push(currNode.right);
     }
 
     currNode = nodesToAddChildren.shift();
@@ -603,4 +602,34 @@ let example1 = new TreeNode(
   new TreeNode(7, new TreeNode(5, null, new TreeNode(6)))
 );
 
-console.log(completify(example1));
+// console.log(completify(example1));
+
+/*
+
+Q. Given a binary tree, determine if it is height-balanced.
+
+*/
+const isBalanced = (root) => {
+  const dfs = (node) => {
+    // leaf nodes are balances, thus returning [true, 0]
+    if (!node) return [true, 0];
+
+    // instantiating left and right branches
+    const [left, right] = [dfs(node.left), dfs(node.right)];
+
+    /*
+
+    [x,y]
+
+    x: if either child nodes are not balanced, return false
+        && if height difference of both children is greater than 1 (not balanced), return false
+    y: height is max height of child nodes incremented by one (including current node)
+
+    */
+    return [
+      left[0] && right[0] && Math.abs(left[1] - right[1]) <= 1,
+      1 + Math.max(left[1], right[1]),
+    ];
+  };
+  return dfs(root)[0];
+};
