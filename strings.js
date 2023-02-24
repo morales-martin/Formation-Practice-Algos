@@ -1,4 +1,3 @@
-
 /*
 
 Q. You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal letters and removing them.
@@ -136,3 +135,34 @@ function rw(input) {
 
   return result.join(" ");
 }
+
+function printLines(str, k) {
+  // Iterative:
+  if (!str) return "";
+  let count = 0;
+  let currWord = "";
+
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] !== "\n") {
+      currWord += str[i];
+    } else {
+      if (count === k) return currWord;
+      currWord = "";
+      count++;
+    }
+  }
+
+  return "";
+
+  // Using Split:
+  // const words = str.split('\n');
+  // if (words.length - 1 < k) return '';
+  // return words[k];
+}
+
+console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n", 0)); // "lineZero"
+console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n", 3)); // "lineThree"
+console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\nlineFour\n", 4)); // "lineThree"
+console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n", 5)); // ""
+console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n\n", 4)); // ""
+console.log(printLines("", 2)); // ""

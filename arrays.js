@@ -259,7 +259,6 @@ function numUniques(array) {
   console.log(numElementsRepeatedX(elementArray,2)) // [1,2,3]
 */
 
-
 function numElementsRepeatedX(elementArray, target) {
   let repeatCountMap = new Map();
 
@@ -409,7 +408,6 @@ const minDominoRotations = (tops, bottoms) => {
 // let tops = [2,1,2,4,2,2]
 // let bottoms = [5,2,6,2,3,2]
 // console.log(minDominoRotations(tops, bottoms))
-
 
 /*
 Q. Given an array of integers, find all unique triplets (a, b, c) in the array such that their sum equals zero (a + b + c = 0).
@@ -705,8 +703,6 @@ function partialProduct(arr) {
 // console.log(partialProduct([1, 2, 0, 4, 0])); // [0,0,0,0,0]
 // console.log(partialProduct([])); // []
 
-
-
 const rotateArray = (nums, k) => {
   if (!(nums instanceof Array) || !nums.length || k === 0) return nums;
   k = k % nums.length;
@@ -731,16 +727,16 @@ Fisher-Yates shuffle algorithm
 Shift used numbers to back and then decrease size by 1
 
 */
-Array.prototype.shuffle = function() {
+Array.prototype.shuffle = function () {
   // loop through entirety of array
   let randomIndex;
-  for(let i = this.length - 1; i > 0; i--) {
-    randomIndex = Math.floor(Math.random() * (i+1));
+  for (let i = this.length - 1; i > 0; i--) {
+    randomIndex = Math.floor(Math.random() * (i + 1));
     [this[i], this[randomIndex]] = [this[randomIndex], this[i]];
   }
 
   return this;
-}
+};
 
 // console.log([1,2,3,4,5,6,7,8,9,10].shuffle());
 
@@ -754,22 +750,24 @@ Q. Given a sorted array of unique positive integers and a target integer,
 
 function binarySearch(array, target) {
   let left = 0;
-  let right = array.length-1;
-  
-  while(left <= right) {
+  let right = array.length - 1;
+
+  while (left <= right) {
     let mid = Math.floor((right + left) / 2);
-    if(array[mid] !== target) {
-      if(target > array[mid]) { // target is on right side
-        left = mid+1;
-      }else{ // target is on left side
-        right = mid-1;
+    if (array[mid] !== target) {
+      if (target > array[mid]) {
+        // target is on right side
+        left = mid + 1;
+      } else {
+        // target is on left side
+        right = mid - 1;
       }
-    }else{
+    } else {
       return mid;
     }
   }
-  
-  return -1
+
+  return -1;
 }
 
 // Test Cases
@@ -778,3 +776,31 @@ function binarySearch(array, target) {
 // console.log(binarySearch(arrayBS, 200)) // 8
 // console.log(binarySearch(arrayBS, 8)) // 4
 // console.log(binarySearch(arrayBS, 154)) // -1
+
+/*
+Given an array of ints, compute recursively if there's a value immediately followed by that value times 10 somewhere in the array. 
+We'll use the convention of considering only the part of the array that begins at the given index. In this way, a recursive call can pass index+1 to move down the array. 
+The initial call will pass in index as 0.
+
+Example(s)
+array10x([1, 2, 20], 0) == True
+array10x([3, 30], 0) == True
+array10x([3], 0) == False
+
+
+🛠️ IMPLEMENT
+function array10x(nums, index) {
+def array10x(nums: list[int], index: int) -> bool:
+ 
+
+*/
+
+const array10x = (nums, index) => {
+  if (index > nums.length - 1) return false;
+
+  return nums[index] * 10 === nums[index + 1] || array10x(nums, index + 1);
+};
+
+console.log(array10x([1, 2, 20], 0), true);
+console.log(array10x([3, 30], 0), true);
+console.log(array10x([3], 0), false);

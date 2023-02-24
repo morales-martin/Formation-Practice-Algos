@@ -100,10 +100,9 @@ export class Test {
 }
 
 export class ListNode {
-  constructor(val = 0, next = null, random = null) {
+  constructor(val = 0, next = null) {
     this.val = val;
     this.next = next;
-    this.random = random;
   }
 }
 

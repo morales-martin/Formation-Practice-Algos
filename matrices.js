@@ -251,3 +251,22 @@ const assignBikes = (workers, bikes) => {
 
   return result;
 };
+
+/*
+
+Given a square matrix *mat*, return the sum of the matrix diagonals.
+Only include the sum of all the elements on the primary diagonal and all the elements on the secondary diagonal *that are not part of the primary diagonal*.
+
+*/
+
+const diagonalSum = (matrix) => {
+  let sum = 0;
+  let center = Math.floor(matrix.length / 2);
+
+  for (let i = 0; i < matrix.length; i++) {
+    sum += matrix[i][i]; // diagonal down
+    sum += matrix[matrix.length - 1 - i][i]; // diagonal up
+  }
+
+  return matrix.length % 2 === 0 ? sum : sum - matrix[center][center];
+};

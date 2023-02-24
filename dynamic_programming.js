@@ -247,3 +247,48 @@ var maxProfit = function (prices, k = 2) {
 
 // matrix product
 // spiral order matrix
+
+/*
+
+Q. Write a function which returns the Kth element of the Fibonacci sequence. 
+The Fibonacci sequence is defined as a sequence in which each number is the sum of the preceding two numbers in the sequence. 
+For the purpose of this question, the first two terms of the sequence are both 1, i.e. fib(0) = fib(1) = 1.
+
+Examples:
+Input: k = 2
+Output: 2
+Explanation:
+fib(2) = fib(0) + fib(1) = 1 + 1 = 2
+
+3
+n1 = 2
+n2 = 3
+
+Loop starting at 1 to k
+- while looping:
+  - let sum = n1 + n2
+  - set n1 to n2
+  - set n2 to sum
+
+return n2
+
+*/
+
+function fib(k) {
+  // number -> number
+  let n1 = 1;
+  let n2 = 1;
+
+  for (let i = 1; i < k; i++) {
+    let sum = n1 + n2;
+    n1 = n2;
+    n2 = sum;
+  }
+
+  return n2;
+}
+
+// Test Cases
+console.log(fib(0)); // 1
+console.log(fib(5)); // 8
+console.log(fib(11)); // 144

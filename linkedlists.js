@@ -5,7 +5,7 @@ let LLTest = new Test("Linked List Test");
 function toString(head) {
   if (!(head instanceof ListNode)) return "<empty>";
 
-  parts = [];
+  let parts = [];
   while (head) {
     parts.push(head.val);
     head = head.next;
@@ -13,6 +13,7 @@ function toString(head) {
 
   return parts.join(" -> ");
 }
+
 
 function arrayToLL(array) {
   if (array.length < 1) return new ListNode();
@@ -825,3 +826,68 @@ function copyRandomList(head) {
 
   return oldToNewMap.get(head);
 }
+
+/*
+Q. 
+Given a linked list, delete the middle node of the list in a single pass.
+If *n* is the length of the list, the middle node is *n/2* using zero-based indexing.
+Return the head of the modified list.
+
+Example(s)
+head = 1
+deleteMiddleNodeSinglePass(head)) == "<empty>"
+
+head = 1 -> 2
+deleteMiddleNodeSinglePass(head)) == "1"
+
+head = 1 -> 2 -> 3
+deleteMiddleNodeSinglePass(head)) == "1 -> 3"
+
+
+🛠️ IMPLEMENT
+function deleteMiddleNodeSinglePass(head) {
+def deleteMiddleNodeSinglePass(head: Node) -> Node:
+
+*/
+
+const deleteMiddleListNodeSinglePass = (head) => {
+  if (!head) return head;
+
+  // get to middle of list (-1)
+  let slow = head;
+  let fast = head;
+
+  while (fast.next && fast.next.next && fast.next.next.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+  }
+
+  // cut middle
+  if (slow.next && slow.next.next) slow.next = slow.next.next;
+
+  // return head
+  return head;
+};
+
+
+/*
+
+Q. Given a linked list, sum all elements in the list.
+
+Examples:
+• Given a linked list: 1 ➞ 4 ➞ 5 // returns 10
+• Given a linked list: 1 // returns 1
+
+*/
+
+function sum(node) {
+  if(!node) return 0;
+
+  return node.val + sum(node.next);
+}
+
+// Test Cases
+var LL1 = new ListNode(1, new ListNode(4, new ListNode(5)))
+console.log(sum(null)) // 0
+console.log(sum(LL1)) // 10
+console.log(sum(new ListNode(1))) // 1

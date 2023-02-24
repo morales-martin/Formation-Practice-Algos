@@ -228,12 +228,12 @@ var pruneTree = function (root) {
 };
 
 var maxDepth = function (root) {
-    if(!root) return 0;
+  if (!root) return 0;
 
-    let left = 1 + maxDepth(root.left);
-    let right = 1 + maxDepth(root.right);
+  let left = 1 + maxDepth(root.left);
+  let right = 1 + maxDepth(root.right);
 
-    return Math.max(left, right);
+  return Math.max(left, right);
 };
 
 function countTree(root) {
@@ -626,3 +626,57 @@ const isBalanced = (root) => {
   };
   return dfs(root)[0];
 };
+
+/*
+
+/*
+Given the root of a binary tree, return true if the given tree is immediately distinct, or false otherwise. 
+
+A binary tree is immediately distinct if no parent node in the tree has a child node with the same value as itself.
+For example, if the parent node = *1* and it has a child node of the same value *1*, this would not be an immediately distinct tree. 
+On the other hand, if no nodes have a child node with the same value as themselves, this is an immediately distinct tree.
+
+Example(s)
+           1*
+       1*      2
+     3   4   _   6
+should return false
+
+           1
+       2       2
+    5    9   _   _    
+should return true
+ 
+function treeIsImmediatelyDistinct(root) {
+def treeIsImmediatelyDistinct(root: Node) -> bool:
+ 
+*/
+
+//    1
+//  2   2
+// 5 9
+const treeIsImmediatelyDistinct = (root) => {
+  if (!root) return true;
+
+  let currTree = true;
+  if (root.left && root.left.value === root.value) currTree = false;
+  if (root.right && root.right.value === root.value) currTree = false;
+
+  return (
+    currTree &&
+    treeIsImmediatelyDistinct(root.left) &&
+    treeIsImmediatelyDistinct(root.right)
+  );
+};
+
+console.log(treeIsImmediatelyDistinct(null) === true);
+
+//    1
+//  1   2
+// 3 4    6
+let root = new TreeNode(
+  1,
+  new TreeNode(1, new TreeNode(3), new TreeNode(4)),
+  new TreeNode(2, null, new TreeNode(6))
+);
+console.log(treeIsImmediatelyDistinct(root) === false);
