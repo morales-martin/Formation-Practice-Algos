@@ -95,48 +95,43 @@ Recursive:
 
 */
 
-const mergeArrays = (left, right) => {
+const mergeArrays = (array1, array2) => {
   let result = [];
 
-  let leftP = 0;
-  let rightP = 0;
+  let pointer1 = 0, pointer2 = 0;
 
-  while (leftP < left.length && rightP < right.length) {
-    if (left[leftP] < right[rightP]) {
-      result.push(left[leftP]);
-      leftP++;
-    } else {
-      result.push(right[rightP]);
-      rightP++;
+  while(pointer1 < array1.length && pointer2 < array2.length) {
+    if(array1[pointer1] < array2[pointer2]) {
+      result.push(array1[pointer1]);
+      result.push(array2[pointer2]);
+      
+    }else{
+      result.push(array2[pointer2]);
+      result.push(array1[pointer1]);
     }
+
+    pointer1++;
+    pointer2++;
   }
 
-  while (leftP < left.length) {
-    result.push(left[leftP]);
-    leftP++;
-  }
-
-  while (rightP < right.length) {
-    result.push(right[rightP]);
-    rightP++;
-  }
+  if(pointer1 < array1.length) result = [...result,...array1.slice(pointer1)];
+  if(pointer2 < array2.length) result = [...result,...array2.slice(pointer2)];
 
   return result;
-};
+}
 
 const merge = (array) => {
-  if (array.length === 1) return array;
+  if(array.length === 1) return array;
 
-  let middle = Math.floor(array.length / 2);
-  let left = merge(array.slice(0, middle));
-  let right = merge(array.slice(middle));
+  let left = merge(array.slice(0, Math.floor(array.length / 2)));
+  let right = merge(array.slice(Math.floor(array.length / 2)));
 
   return mergeArrays(left, right);
 };
 
-// console.log(merge(array1));
-// console.log(merge(array2));
-// console.log(merge(array3));
+console.log(merge(array1));
+console.log(merge(array2));
+console.log(merge(array3));
 
 /*
 
@@ -243,6 +238,6 @@ const heapSort = (array) => {
   return array;
 };
 
-console.log(heapSort(array1));
-console.log(heapSort(array2));
-console.log(heapSort(array3));
+// console.log(heapSort(array1));
+// console.log(heapSort(array2));
+// console.log(heapSort(array3));

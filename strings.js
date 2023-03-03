@@ -160,9 +160,39 @@ function printLines(str, k) {
   // return words[k];
 }
 
-console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n", 0)); // "lineZero"
-console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n", 3)); // "lineThree"
-console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\nlineFour\n", 4)); // "lineThree"
-console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n", 5)); // ""
-console.log(printLines("lineZero\nlineOne\nlineTwo\nlineThree\n\n", 4)); // ""
-console.log(printLines("", 2)); // ""
+/*
+
+Given a string that contains exactly 1 pair of parentheses, compute recursively a new string made of only the parentheses and their contents, so "xyz(abc)123" yields "(abc)".
+
+Example(s)
+parenBit("xyz(abc)123") == "(abc)"
+parenBit("x(hello)") == "(hello)"
+parenBit("(xy)1") == "(xy)"
+
+xyz(abc)123
+
+base case
+- reach a character that equals ")"
+  - return result
+
+- currChar = '(' or result is not empty
+  - add char to result
+
+recursive case
+- recursive(idx, result)
+
+*/
+
+const parenBit = (string, idx = 0, start = 0) => {
+  if (string[idx] === ")") {
+    return string.substring(start, idx + 1);
+  }
+
+  let newStart = string[idx] === "(" ? idx : start;
+
+  return parenBit(string, idx + 1, newStart);
+};
+
+console.log(parenBit("xyz(abc)123") == "(abc)");
+console.log(parenBit("x(hello)") == "(hello)");
+console.log(parenBit("(xy)1") == "(xy)");

@@ -801,6 +801,86 @@ const array10x = (nums, index) => {
   return nums[index] * 10 === nums[index + 1] || array10x(nums, index + 1);
 };
 
-console.log(array10x([1, 2, 20], 0), true);
-console.log(array10x([3, 30], 0), true);
-console.log(array10x([3], 0), false);
+// console.log(array10x([1, 2, 20], 0), true);
+// console.log(array10x([3, 30], 0), true);
+// console.log(array10x([3], 0), false);
+
+/*
+
+Given a target integer *X*, iterate from *X* to 1 and return a list of sequences where each starts with the current iteration and goes down to 1. Each iteration should decrement the array size and values until it reaches 1.
+
+[
+  [X, ..., 5, 4, 3, 2, 1],
+  ...
+  ...
+  ...
+  [5, 4, 3, 2, 1],
+  [4, 3, 2, 1],
+  [3, 2, 1],
+  [2, 1],
+  [1]
+]
+
+Example(s)
+generateSequence(2) == [[2,1], [1]]
+generateSequence(3) == [[3,2,1], [2,1], [1]]
+
+*/
+
+const generateSequence = (k) => {
+  let result = [[]];
+
+  for (let i = 1; i <= k; i++) {
+    result.unshift([i, ...result[0]]);
+  }
+
+  result.pop();
+
+  return result;
+};
+
+// console.log(generateSequence(2)); // == [[2,1], [1]]
+// console.log(generateSequence(3)); // == [[3,2,1], [2,1], [1]]
+
+/*
+
+Given an array of integers representing puzzle *pieces* and an integer *targetSize*, return the number of arrangements whose size sums to *targetSize*.
+
+An arrangement is a contiguous, non-empty sequence of *pieces* within an array.
+
+Example(s)
+Input: pieces = [1,2,3], targetSize = 3
+Output: 2 =, because [1, 2] and [3] are valid arrangements
+
+Input: pieces = [1,1,1], targetSize = 2
+Output: 2, because [1, 1] and [1, 1] are valid (albeit duplicate) arrangements
+
+Input: pieces = [5, 3, 1, 4], targetSize = 8
+Output: 2, because [5, 3] and [3, 1, 4] are valid arrangements
+
+*/
+
+const puzzleArrangements = (pieces, targetSize) => {
+  let numArrangements = 0;
+  let currentSize = 0;
+
+  const sums = new Map();
+  sums.set(0, 1);
+
+  for (const pieceSize of pieces) {
+    currentSize += pieceSize;
+
+    if (sums.has(currentSize - targetSize))
+      numArrangements += sums.get(currentSize - targetSize);
+
+    sums.set(currentSize, (sums.get(currentSize) || 0) + 1);
+  }
+
+  console.log(sums);
+
+  return numArrangements;
+};
+
+console.log(puzzleArrangements([1, 2, 3], 3)); // 2
+console.log(puzzleArrangements([1, 1, 1], 2)); // 2
+console.log(puzzleArrangements([5, 3, 1, 4], 8)); // 2

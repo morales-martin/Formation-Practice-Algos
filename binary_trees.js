@@ -669,14 +669,86 @@ const treeIsImmediatelyDistinct = (root) => {
   );
 };
 
-console.log(treeIsImmediatelyDistinct(null) === true);
+// console.log(treeIsImmediatelyDistinct(null) === true);
 
 //    1
 //  1   2
 // 3 4    6
-let root = new TreeNode(
-  1,
-  new TreeNode(1, new TreeNode(3), new TreeNode(4)),
-  new TreeNode(2, null, new TreeNode(6))
-);
-console.log(treeIsImmediatelyDistinct(root) === false);
+// let root = new TreeNode(
+//   1,
+//   new TreeNode(1, new TreeNode(3), new TreeNode(4)),
+//   new TreeNode(2, null, new TreeNode(6))
+// );
+// console.log(treeIsImmediatelyDistinct(root) === false);
+
+/*
+
+Flipping a tree means rotating it 180 degrees around its vertical axis. For example:
+     1
+   /   \
+  2     3
+ / \   / \
+4  5  6   7
+
+Becomes:
+     1
+   /   \
+  3     2
+ / \   / \
+7  6  5   4
+
+Example(s)
+    5 <--- root
+ 10   5
+flip(root)
+
+root.val == 5
+root.left.val == 5
+root.right.val == 10
+
+Verify that these are leaf nodes:
+root.left.left == None
+root.left.right == None
+root.right.left == None
+
+*/
+
+const flipIterative = (root) => {
+  let queue = [root];
+
+  while (queue.length) {
+    let node = queue.shift();
+    [node.left, node.right] = [node.right, node.left];
+
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+  }
+
+  return root;
+};
+
+const flip = (root) => {
+  if (!root) return;
+
+  [root.left, root.right] = [root.right, root.left];
+
+  flip(root.left);
+  flip(root.right);
+
+  return root;
+};
+
+let root = new TreeNode(5);
+root.left = new TreeNode(10);
+root.right = new TreeNode(5);
+
+flip(root);
+
+console.log(root.value == 5);
+console.log(root.left.value == 5);
+console.log(root.right.value == 10);
+
+// Verify that these are leaf nodes:
+console.log(root.left.left == null);
+console.log(root.left.right == null);
+console.log(root.right.left == null);
