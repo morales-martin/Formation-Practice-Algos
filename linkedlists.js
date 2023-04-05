@@ -538,13 +538,13 @@ var reorderList = function (head) {
 };
 
 // Test Cases
-var LL1 = new ListNode(
-  13,
-  new ListNode(
-    1,
-    new ListNode(5, new ListNode(3, new ListNode(7, new ListNode(10))))
-  )
-);
+// var LL1 = new ListNode(
+//   13,
+//   new ListNode(
+//     1,
+//     new ListNode(5, new ListNode(3, new ListNode(7, new ListNode(10))))
+//   )
+// );
 // console.log(kthFromLast(LL1, 1)); // 10
 
 /*
@@ -887,7 +887,36 @@ function sum(node) {
 }
 
 // Test Cases
-var LL1 = new ListNode(1, new ListNode(4, new ListNode(5)))
-console.log(sum(null)) // 0
-console.log(sum(LL1)) // 10
-console.log(sum(new ListNode(1))) // 1
+// var LL1 = new ListNode(1, new ListNode(4, new ListNode(5)))
+// console.log(sum(null)) // 0
+// console.log(sum(LL1)) // 10
+// console.log(sum(new ListNode(1))) // 1
+
+/*
+Q. Given a sorted linked list of unique integers, check if the list contains an element with a target value.
+
+Examples:
+• Given a linked list: 2 ➞ 3 ➞ 5, target: 2 // returns True
+• Given a linked list: 2 ➞ 3 ➞ 5, target: 4  // returns False
+*/
+
+const search = (head, target) => {
+  
+  while(head) {
+    if(head.val === target) return true
+    else if (head.val > target) return false;
+
+    head = head.next;
+  }
+
+  return false;
+}
+
+// Test Cases
+// let LL1 = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(5, new ListNode(6, new ListNode(7, new ListNode(10)))))))
+// console.log(search(null, 1)) // false
+// console.log(search(LL1, 2)) // true
+// console.log(search(LL1, 4)) // false
+// console.log(search(LL1, -1)) // false
+// console.log(search(LL1, 10)) // true
+// console.log(search(LL1, 11)) // false

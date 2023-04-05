@@ -738,17 +738,41 @@ const flip = (root) => {
   return root;
 };
 
-let root = new TreeNode(5);
-root.left = new TreeNode(10);
-root.right = new TreeNode(5);
+// let root = new TreeNode(5);
+// root.left = new TreeNode(10);
+// root.right = new TreeNode(5);
 
-flip(root);
+// flip(root);
 
-console.log(root.value == 5);
-console.log(root.left.value == 5);
-console.log(root.right.value == 10);
+// console.log(root.value == 5);
+// console.log(root.left.value == 5);
+// console.log(root.right.value == 10);
 
 // Verify that these are leaf nodes:
-console.log(root.left.left == null);
-console.log(root.left.right == null);
-console.log(root.right.left == null);
+// console.log(root.left.left == null);
+// console.log(root.left.right == null);
+// console.log(root.right.left == null);
+
+/*
+Q. Given a binary tree, find the element with the largest value, recursively.
+
+Example:
+• Given a binary tree:
+                 1
+                / \
+               7   3
+              / \
+             4   5
+// returns 7
+*/
+
+const findTreeMax = (root) => {
+  if(!root) return null;
+
+  return Math.max(root.value, findTreeMax(root.left), findTreeMax(root.right));
+}
+
+// console.log(findTreeMax(null)) // null
+// console.log(findTreeMax(new TreeNode(1, new TreeNode(2), new TreeNode(3)))) // 3
+// console.log(findTreeMax(new TreeNode(2, new TreeNode(29, new TreeNode(26)), new TreeNode(4, null, new TreeNode(2, new TreeNode(9)))))) // 29
+// console.log(findTreeMax(new TreeNode(1))) // 1

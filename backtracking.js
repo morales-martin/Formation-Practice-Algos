@@ -358,3 +358,97 @@ console.log(numUniqueRecords(2), 8);
 console.log(numUniqueRecords(3), 19);
 
 // O(3^K * K)
+
+/*
+
+Given a set of characters, a minimum length, and a maximum length, generate all strings that can be created using characters from the set between those lengths inclusively.
+This algorithm requires a large time and space complexity to enumerate all the possibilities. You should be able to get this to either time out or run out of memory even on rather small lengths.
+
+Example(s)
+generatePasswords(["a"], 2, 4) == [
+  "aa",
+  "aaa",
+  "aaaa",
+]
+
+4^1
+4^1
+
+generatePasswords(["a", "b", "c"], 2, 3) == [
+  "aa","aaa","aab","aac",
+  "ab","aba","abb","abc",
+  "ac","aca","acb","acc",
+  "ba","baa","bab","bac",
+  "bb","bba","bbb","bbc",
+  "bc","bca","bcb","bcc",
+  "ca","caa","cab","cac",
+  "cb","cba","cbb","cbc",
+  "cc","cca","ccb","ccc"
+]
+
+max^n
+
+function generatePasswords
+  - result array
+  - call backtrack function
+  - return result array
+
+- init stack (will be pushed onto by backtrack func)
+function backtrack params:
+  base case:
+    - when our stack reaches a length of min-max (inclusively)
+      - push to result array
+
+  recursive case
+  - Loop through our input array
+    - push to stack
+    - backtrack
+    - pop from stack
+
+*/
+
+const generatePasswords = (chars, min, max) => {
+  const result = [];
+
+  const stack = [];
+  const backtrack = () => {
+    // base case 
+    if(stack.length >= min && stack.length <= max){
+      result.push([...stack].join(""));
+      return;
+    }
+
+    // recursive case
+    for(const char of chars) {
+      stack.push(char);
+      backtrack();
+      stack.pop();
+    }
+  }
+
+  backtrack();
+
+  return result;
+}
+
+console.log(generatePasswords(["a"], 2, 4))
+
+// [
+//   "aa",
+//   "aaa",
+//   "aaaa",
+// ]
+
+console.log(generatePasswords(["a", "b", "c"], 2, 3))
+// [
+//   "aa","aaa","aab","aac",
+//   "ab","aba","abb","abc",
+//   "ac","aca","acb","acc",
+//   "ba","baa","bab","bac",
+//   "bb","bba","bbb","bbc",
+//   "bc","bca","bcb","bcc",
+//   "ca","caa","cab","cac",
+//   "cb","cba","cbb","cbc",
+//   "cc","cca","ccb","ccc"
+// ]
+

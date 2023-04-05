@@ -881,6 +881,233 @@ const puzzleArrangements = (pieces, targetSize) => {
   return numArrangements;
 };
 
-console.log(puzzleArrangements([1, 2, 3], 3)); // 2
-console.log(puzzleArrangements([1, 1, 1], 2)); // 2
-console.log(puzzleArrangements([5, 3, 1, 4], 8)); // 2
+// console.log(puzzleArrangements([1, 2, 3], 3)); // 2
+// console.log(puzzleArrangements([1, 1, 1], 2)); // 2
+// console.log(puzzleArrangements([5, 3, 1, 4], 8)); // 2
+
+/*
+True Summits
+You are standing at the foot of a mountain, looking up a peak and wondering if it is a _false summit_ or not. 
+A false summit is a visible highpoint that obscures the true summit from view. For example:
+
+                              /
+            / \             /
+          /     \ _ _ _ _ /
+        /
+    _ /
+X /
+0 1 1 2 3 4 5 4 3 3 3 3 3 4 5 6 - elevations
+
+In this case, the person standing at the X is looking up at a peak 6 units away that is 5 units high. So even though there is a higher peak further back, it can't be seen because the false summit is in the way. So for input [0, 1, 1, 2, 3, 4, 5, 4, 3, 3, 3, 3, 3, 4, 5, 6], the result should be false; you cannot see the true summit, because only the false summit is visible from the first position.
+
+                    | \
+                    |   \
+                    |     \
+                    |       _ _
+                    |
+                    |
+                    |
+            / \     |
+          /     \ _ |
+        /
+    _ /
+X /
+0 1 1 2 3 4 5 4 3 3 11 10 9 8 7 7 - elevations
+
+The input [0, 1, 1, 2, 3, 4, 5, 4, 3, 3, 11, 10, 9, 8, 7, 7] will return true because the true summit is tall enough to be seen from the first position. 
+However, if the value 11 is instead a 9, the true summit will be obscured by the value 1 at the second index. The value 1 then becomes a false summit!
+
+The function takes an array of elevations. The first elevation will be zero and is the position of the viewer. 
+From there, the elevations at each position will potentially change and indicate the elevation at that point relative to the viewpoint. 
+Return true if the highest visible point is the true summit.
+ 
+
+EXAMPLE(S)
+canSeeTrueSummit([0, 1, 2, 3, 4, 5]) == true
+canSeeTrueSummit([0, 2, 3]) == false
+canSeeTrueSummit([0, 1, 1, 2, 3, 4, 5, 4, 3, 3, 9, 9, 9, 8, 7, 7]) == false
+canSeeTrueSummit([0, 1, 1, 2, 3, 4, 5, 4, 3, 3, 11, 10, 9, 8, 7, 7]) == false
+ 
+
+FUNCTION SIGNATURE
+function canSeeTrueSummit(elevations)
+
+Approach:
+
+- Get two highest values (summits) as pairs with index
+- 
+
+*/
+
+/*
+Next Greater Element
+
+Given a list of positive and distinct integers, find the next greater element for each element. The next greater element (NGE) of an element is the next element which is greater than the current element's value. Formally, the NGE of element A[i] is A[j] where A[j] > A[i], j > i, and j is the lowest possible index that meets this criterion.
+
+For example in the array [1, 3, 2, 5, 4, 8], the NGE of 3 is 5 since 5 is greater than 3 and the index of element 5 is the lowest among all elements to the right of 3 which satisfies the 'greater than' relation.
+ 
+
+EXAMPLE(S)
+next_greater_element([2, 7, 3, 5, 4, 6, 8]) == [7, 8, 5, 6, 6, 8, -1]
+next_greater_element([5, 4, 3, 2, 1]) == [-1, -1, -1, -1, -1]
+ 
+
+FUNCTION SIGNATURE
+def findNextGreaterElements(input: List[int]) -> List[int]
+*/
+
+const findNextGreaterElements_bf = (input) => {
+  let result = [];
+
+  for (let i = 0; i < input.length; i++) {
+    let nextGreatest = -1;
+
+    for (let j = i + 1; j < input.length; j++) {
+      if (input[j] > input[i]) {
+        nextGreatest = input[j];
+        break;
+      }
+    }
+
+    result[i] = nextGreatest;
+  }
+
+  return result;
+};
+
+// console.log(
+//   JSON.stringify(findNextGreaterElements([2, 7, 3, 5, 4, 6, 8])) ===
+//     JSON.stringify([7, 8, 5, 6, 6, 8, -1])
+// );
+// console.log(
+//   JSON.stringify(findNextGreaterElements([5, 4, 3, 2, 1])) ===
+//     JSON.stringify([-1, -1, -1, -1, -1])
+// );
+
+/*
+Given an array of ints, compute recursively the number of times that the value 6 appears in the array. 
+We'll use the convention of considering only the part of the array that begins at the given index. 
+In this way, a recursive call can pass index+1 to move down the array. The initial call will pass in index as 0.
+
+Example(s)
+array6([1, 2, 6], 0) == 1
+array6([6, 6], 0) == 2
+array6([1, 2, 3, 4], 0) == 0
+ 
+*/
+
+const array6 = (arr, idx) => {
+  if(idx >= arr.length) return 0;
+
+  let isSix = arr[idx] === 6 ? 1 : 0;
+
+  return isSix + array6(arr, idx + 1);
+}
+
+// console.log(array6([1, 2, 6], 0) == 1)
+// console.log(array6([6, 6], 1) == 1)
+// console.log(array6([1, 2, 3, 4], 0) == 0)
+
+/*
+You're a bartender and have to look out for your patrons - you don't want them to drink too much. 
+Assume everyone has the same drink, and everyone has the same set amount of "allowed servings".
+
+Given an array of patrons (denoted by their names, eg: Adrian) and an integer value representing "allowed servings", 
+  return True if someone attempts to go over the allowed number of servings per person.
+
+Otherwise, False if no one drinks too much.
+
+Can you think of any data structures that might help?
+
+Example(s)
+patrons = ['Joe', 'Bart', 'Larry', 'Joe', 'Carl', 'Doug', 'Joe']
+allowedServings = 2
+
+returns True because Joe went over the limit.
+ 
+function limitedServings(patrons, allowedServings) {
+def limitedServings(patrons: list[str], allowedServings: int) -> bool:
+ 
+
+*/
+
+const limitedServings = (patrons, allowedServings) => {
+  let freqMap = new Map();
+
+  for(let patron of patrons) {
+    let count = freqMap.get(patron) || 0;
+
+    if(count < allowedServings) freqMap.set(patron, count +1)
+    else return true;
+  }
+
+  return false;
+}
+
+// console.log(limitedServings([], 3) === false)
+// console.log(limitedServings(['Joe', 'Bart', 'Larry', 'Joe', 'Carl', 'Doug', 'Joe'], 2) === true)
+// console.log(limitedServings(['Joe', 'Joe'], 3) === false)
+// console.log(limitedServings(['Joe', 'Joe', 'Adrian', 'Adrian'], 3) === false)
+// console.log(limitedServings(['Adrian', 'Bart', 'Carl', 'Doug'], 1) === false)
+// console.log(limitedServings(['Adrian', 'Bart', 'Carl'], 0) === true)
+
+/*
+Given an array of unique integers, find all pairs of elements with the minimum absolute difference. 
+If there are multiple pairs, return them in ascending order.
+
+Example(s)
+Input: arr = [1,3,6,10,15]
+Output: [[1,3]]
+Explanation: There is only 1 pair of elements with a minimum absolute difference of 2.
+
+Input: arr = [3,8,-10,23,19,-4,-14,27]
+Output: [[-14,-10],[19,23],[23,27]]
+Explanation: There are 3 pairs of elements with a minimum absolute difference of 4, which are listed in ascending order according to the smaller value in the pair.
+
+Input: arr = [4,2,1,3]
+Output: [[1,2],[2,3],[3,4]]
+Explanation: There are 3 pairs of elements with a minimum absolute difference of 1, which are listed in ascending order according to the smaller value in the pair.
+ 
+
+*/
+
+const minAbsDiffPairs = (arr) => {
+  arr.sort((a,b) => a-b);
+
+  let minDiff = Infinity;
+  let minDiffPairs = [];
+
+  for(let i = 0; i < arr.length; i++) {
+    for(let j = i + 1; j < arr.length; j++) {
+      const currDiff = Math.abs(arr[i] - arr[j]);
+      if(currDiff < minDiff) {
+        minDiff = currDiff;
+        minDiffPairs = [[arr[i],arr[j]]];
+      }else if(currDiff === minDiff) {
+        minDiffPairs.push([arr[i],arr[j]]);
+      }else{
+        break;
+      }
+    }
+  }
+
+  return minDiffPairs;
+}
+
+let arr = [1,3,6,10,15]
+console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[1,3]]")
+
+arr = [3,8,-10,23,19,-4,-14,27]
+console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[-14,-10],[19,23],[23,27]]")
+
+arr = [4,2,1,3]
+console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[1,2],[2,3],[3,4]]")
+
+arr = [1,3,6,7,10,15]
+console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[6,7]]")
+
+arr = [5,15]
+console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[5,15]]")
+
+arr = [15,5]
+console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[5,15]]")
