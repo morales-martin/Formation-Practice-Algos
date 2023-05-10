@@ -9,14 +9,14 @@ Have two loops: One to keep track of your swap placeholder
 */
 
 const selection = (array) => {
-  for (let i = 0; i < array.length - 1; i++) {
-    let min = i;
-    for (let j = i + 1; j < array.length; j++) {
-      if (array[j] < array[min]) {
-        min = j;
-      }
+  for (let i = array.length - 1; i > 0; i--) {
+    let maxIdx = i;
+
+    for (let j = 0; j < i; j++) {
+      if (array[maxIdx] < array[j]) maxIdx = j;
     }
-    [array[i], array[min]] = [array[min], array[i]];
+
+    [array[maxIdx], array[i]] = [array[i], array[maxIdx]];
   }
 
   return array;
@@ -27,9 +27,9 @@ const selection = (array) => {
 // console.log(selection(array3))
 
 /*
-        i
-[3,4,1,36]
-     j
+   i------  
+[1,3,4,36]
+ 
 INSERTION SORT
 Have two loops: One that goes through the array n-1 times and
     another that finds a value that is greater than its previous
@@ -37,26 +37,25 @@ Have two loops: One that goes through the array n-1 times and
 
 const insertion = (array) => {
   for (let i = 1; i < array.length; i++) {
-    for (let j = i; j > 0; j--) {
-      if (array[j] < array[j - 1]) {
-        [array[j], array[j - 1]] = [array[j - 1], array[j]];
-      } else {
-        break;
-      }
+    let j = i;
+    while (j > 0 && array[j] < array[j - 1]) {
+      [array[j], array[j - 1]] = [array[j - 1], array[j]];
+      j = j - 1;
     }
   }
 
   return array;
 };
 
-// console.log(insertion(array1))
-// console.log(insertion(array2))
-// console.log(insertion(array3))
+// console.log(insertion(array1));
+// console.log(insertion(array2));
+// console.log(insertion(array3));
 
 /*
-       i
-[3,6,2,1,7,13]
- j    
+
+   
+[2,1,3,6,7,13]
+     
 
 BUBBLE SORT
 Concept: Start at first element. If element is greater than it's next, swap.
@@ -96,37 +95,36 @@ Recursive:
 */
 
 const mergeArrays = (array1, array2) => {
+  let p1 = 0;
+  let p2 = 0;
+
   let result = [];
 
-  let pointer1 = 0, pointer2 = 0;
-
-  while(pointer1 < array1.length && pointer2 < array2.length) {
-    if(array1[pointer1] < array2[pointer2]) {
-      result.push(array1[pointer1]);
-      result.push(array2[pointer2]);
-      
-    }else{
-      result.push(array2[pointer2]);
-      result.push(array1[pointer1]);
+  while (p1 < array1.length && p2 < array2.length) {
+    if (array1[p1] < array2[p2]) {
+      result.push(array1[p1]);
+      p1++;
+    } else {
+      result.push(array2[p2]);
+      p2++;
     }
-
-    pointer1++;
-    pointer2++;
   }
 
-  if(pointer1 < array1.length) result = [...result,...array1.slice(pointer1)];
-  if(pointer2 < array2.length) result = [...result,...array2.slice(pointer2)];
+  if (p1 < array1.length) result = [...result, ...array1.slice(p1)];
+  if (p2 < array2.length) result = [...result, ...array2.slice(p2)];
 
   return result;
-}
+};
 
 const merge = (array) => {
-  if(array.length === 1) return array;
+  if (array.length === 1) return array;
 
-  let left = merge(array.slice(0, Math.floor(array.length / 2)));
-  let right = merge(array.slice(Math.floor(array.length / 2)));
+  let mid = Math.floor(array.length / 2);
 
-  return mergeArrays(left, right);
+  let left = array.slice(0, mid);
+  let right = array.slice(mid);
+
+  return mergeArrays(merge(left), merge(right));
 };
 
 console.log(merge(array1));

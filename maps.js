@@ -232,25 +232,25 @@ function earliestFellows(resumeSubmissions) {
 
   for (let fellow in resumeSubmissions) {
     if (submissionsMap.has(resumeSubmissions[fellow])) {
-        submissionsMap.get(resumeSubmissions[fellow]).push(fellow)
+      submissionsMap.get(resumeSubmissions[fellow]).push(fellow);
     } else {
       submissionsMap.set(resumeSubmissions[fellow], [fellow]);
     }
   }
 
-  let earliest = Infinity
-  let earliestFellows = null
-  for(const [time, fellowList] of submissionsMap) {
-    if(time < earliest) {
-        earliestFellows = fellowList
-        earliest = time
+  let earliest = Infinity;
+  let earliestFellows = null;
+  for (const [time, fellowList] of submissionsMap) {
+    if (time < earliest) {
+      earliestFellows = fellowList;
+      earliest = time;
     }
   }
 
-  return earliestFellows
+  return earliestFellows;
 }
 
-console.log(earliestFellows(resumeSubmissions));
+// console.log(earliestFellows(resumeSubmissions));
 
 /*
 Problem Statement - Number of Unique Elements variations
@@ -304,25 +304,24 @@ input [0 ,1, 1]
   0  1
 
 */
-// 
+//
 
 function findThree(nums) {
-  const numSet = new Set()
-  const numSet2 = new Set()
-  for (let i=0; i<nums.length; i++){
-    const number = nums[i]
-    if (numSet.has(number)){
-      numSet2.add(number)
+  const numSet = new Set();
+  const numSet2 = new Set();
+  for (let i = 0; i < nums.length; i++) {
+    const number = nums[i];
+    if (numSet.has(number)) {
+      numSet2.add(number);
     } else {
-      numSet.add(number)
+      numSet.add(number);
     }
   }
-  console.log(numSet)
-  return [ ...numSet2 ][0]
+  console.log(numSet);
+  return [...numSet2][0];
 }
 
 // const findThree = (nums) => nums.reduce((a,b) => a ^ b)
-
 
 // // 1
 // function mostFrequent(arr) {
@@ -336,7 +335,7 @@ function findThree(nums) {
 //     myMap.set(num,count)
 //       if (count > currMax) {
 //             currMax = count;
-//             maxEle = num; 
+//             maxEle = num;
 //       }
 
 //       if ((count === currMax) && (num > maxEle)) {
@@ -351,54 +350,168 @@ function findThree(nums) {
 // console.log(mostFrequent([1,2,3,3,4,5,5,6]))
 // console.log(mostFrequent([]))
 
-
 function numElementsRepeatedX(input, target) {
-  let eleMap = new Map;
-  let maxEle
-  let maxCount = -Infinity
+  let eleMap = new Map();
+  let maxEle;
+  let maxCount = -Infinity;
 
-  for(let element of input) {
-    let count = (eleMap.get(element) || 0) + 1
-    eleMap.set(element, count)
+  for (let element of input) {
+    let count = (eleMap.get(element) || 0) + 1;
+    eleMap.set(element, count);
 
-    if(count > maxCount) {
-      maxEle = element
-      maxCount = count
+    if (count > maxCount) {
+      maxEle = element;
+      maxCount = count;
     }
 
-
-    if(count === maxCount && maxEle < element) {
-      maxEle = element
+    if (count === maxCount && maxEle < element) {
+      maxEle = element;
     }
-    
   }
 
-  return maxEle
-
+  return maxEle;
 }
-console.log(numElementsRepeatedX([1, 2, 3, 1, 2, 3], 2)) // 3
-
+// console.log(numElementsRepeatedX([1, 2, 3, 1, 2, 3], 2)) // 3
 
 function topKFrequencyElements(input, k) {
   let countMap = new Map();
-  let frequency = []
+  let frequency = [];
 
-  for(let ele of input) {
-    let count = (countMap.get(ele) || 0) + 1
-    countMap.set(ele, count)
+  for (let ele of input) {
+    let count = (countMap.get(ele) || 0) + 1;
+    countMap.set(ele, count);
   }
 
-  for(let [ele, count] of countMap) {
-    frequency[count] = [...frequency[count], ele]
+  for (let [ele, count] of countMap) {
+    frequency[count] = [...frequency[count], ele];
   }
 
-  console.log(frequency)
-  let results = []
-  for(let i = input.length; i > 0; i--) {
-    if(frequency[i] != null) results.push(frequency[i])
-    if(results.length === k) return results
+  console.log(frequency);
+  let results = [];
+  for (let i = input.length; i > 0; i--) {
+    if (frequency[i] != null) results.push(frequency[i]);
+    if (results.length === k) return results;
   }
 
-  return results
+  return results;
 }
-console.log(topKFrequencyElements([1, 2, 3, 2, 1], 2)) // [1,2]
+// console.log(topKFrequencyElements([1, 2, 3, 2, 1], 2)) // [1,2]
+
+/*
+A dance studio is holding a Tango lesson tonight involving 2 half-hour sessions. The studio is creating a plan to pair dancers in the second session with a different partner 
+from the first session. Given a list of Tango pairs for each session, determine if the studio will pair up any partners twice.
+
+This problem aims to familiarize you with storing and retrieving information from data structures to create a minimal algorithm. 
+
+In this instance, the Engineering Method is valuable because it helps you arrive at a more optimal algorithm than brute force.
+As a follow-up, how would you write an algorithm to detect repeated pairs in 3 sessions, in any number of sessions? How would you write an 
+O(N) time algorithm to determine how often the matcher created each pair? Again, it should count pairs in reversed order as the same pair.
+
+Example(s)
+session1 = [["Alice", "Baxter"], ["Charles", "Davis"], ["Jack", "Daniels"]]
+session2 = [["Jack", "Charles"], ["Baxter", "Davis"], ["Alice", "Daniels"]]
+hasRepeatTangoPartner(session1, session2) == False
+
+session1 = [["Alice", "Baxter"], ["Charles", "Davis"], ["Jack", "Daniels"]]
+session2 = [["Jack", "Daniels"], ["Alice", "Charles"], ["Baxter", "Davis"]]
+hasRepeatTangoPartner(session1, session2) == True
+
+Jack and Daniels have been partnered up on both sessions.
+
+*/
+
+const hasRepeatTangoPartner = (session1, session2) => {
+  let partnerMap = new Map();
+
+  for (const pair of session1) {
+    partnerMap.set(pair[0], pair[1]);
+    partnerMap.set(pair[1], pair[0]);
+  }
+
+  for (const pair of session2) {
+    if (partnerMap.get(pair[0]) === pair[1]) return true;
+  }
+
+  return false;
+};
+
+// Example(s)
+// let session1 = [["Alice", "Baxter"], ["Charles", "Davis"], ["Jack", "Daniels"]]
+// let session2 = [["Jack", "Charles"], ["Baxter", "Davis"], ["Alice", "Daniels"]]
+// console.log(hasRepeatTangoPartner(session1, session2) == false)
+
+// session1 = [["Alice", "Baxter"], ["Charles", "Davis"], ["Jack", "Daniels"]]
+// session2 = [["Jack", "Daniels"], ["Alice", "Charles"], ["Baxter", "Davis"]]
+// console.log(hasRepeatTangoPartner(session1, session2) == true)
+
+/*
+
+Given an array of integers representing piles of rocks (e.g., *3* means *3 rocks*), modify the input array to rank the piles from 1 to N, 
+representing the relative sizes of each pile of rocks from smallest to largest.
+That is, the pile with the lowest count of rocks should be ranked *1*, the second lowest should be *2*, and so on.
+You may use built-in functions provided by your programming language.
+
+Example(s)
+Input: [3, 4, 1]
+Output: [2, 3, 1]
+Explanation: The last index has the smallest pile with 1 rock, so it's ranked 1st place. The first index has the 2nd smallest pile with 3 rocks, so it's ranked 2nd place. The middle index has the 3rd smallest pile with 4 rocks, so it's ranked 3rd place.
+
+Input: [80, 27, 55, 30, 15, 90, 10]
+Output: [6, 3, 5, 4, 2, 7, 1]
+Explanation:
+10 -> 1
+15 -> 2
+27 -> 3
+30 -> 4
+55 -> 5
+80 -> 6
+90 -> 7
+The last index has the smallest pile with 10 rocks, so it's ranked 1st place. The 2nd smallest pile has 15 rocks, so it's ranked 2nd place. The 3rd smallest pile has 27 rocks, so it's ranked 3rd place. So on and so forth until the 7th smallest pile has 90 rocks, so it's ranked 7th place.
+
+Input: [2, 1]
+Output: [2, 1]
+
+[10,8,15,12,6,20,1]
+
+
+input  [3, 4, 1]
+result [2, 3, 1]
+
+  Map {
+    3: 0,
+    4: 1,
+    1: 2,
+  }
+
+  sortedMapArr: [[1,2], [3,0], [4,1]]
+  
+  Traverse through sortedMapArr using idx pairs:
+    - Set input arr position at value to i + 1
+
+  time: O(n)
+  space: O(n)
+*/
+
+const rankPiles = (arr) => {
+  let mappedArr = new Map();
+
+  for (let i = 0; i < arr.length; i++) {
+    mappedArr.set(arr[i], i);
+  }
+
+  let mapToArray = [...mappedArr]
+    .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
+    .map((tuplet) => tuplet[1]);
+
+  for (let i = 0; i < mapToArray.length; i++) {
+    let idx = mapToArray[i];
+    arr[idx] = i + 1;
+  }
+
+  return arr;
+};
+
+// arr = [80, 27, 55, 30, 15, 90, 10];
+// console.log(JSON.stringify(rankPiles(arr)) === "[6,3,5,4,2,7,1]");
+
+

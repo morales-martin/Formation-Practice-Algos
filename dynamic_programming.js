@@ -289,6 +289,7 @@ function fib(k) {
 }
 
 // Test Cases
-console.log(fib(0)); // 1
-console.log(fib(5)); // 8
-console.log(fib(11)); // 144
+// console.log(fib(0)); // 1
+// console.log(fib(5)); // 8
+// console.log(fib(11)); // 144
+

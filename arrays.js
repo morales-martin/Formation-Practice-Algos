@@ -997,12 +997,12 @@ array6([1, 2, 3, 4], 0) == 0
 */
 
 const array6 = (arr, idx) => {
-  if(idx >= arr.length) return 0;
+  if (idx >= arr.length) return 0;
 
   let isSix = arr[idx] === 6 ? 1 : 0;
 
   return isSix + array6(arr, idx + 1);
-}
+};
 
 // console.log(array6([1, 2, 6], 0) == 1)
 // console.log(array6([6, 6], 1) == 1)
@@ -1034,15 +1034,15 @@ def limitedServings(patrons: list[str], allowedServings: int) -> bool:
 const limitedServings = (patrons, allowedServings) => {
   let freqMap = new Map();
 
-  for(let patron of patrons) {
+  for (let patron of patrons) {
     let count = freqMap.get(patron) || 0;
 
-    if(count < allowedServings) freqMap.set(patron, count +1)
+    if (count < allowedServings) freqMap.set(patron, count + 1);
     else return true;
   }
 
   return false;
-}
+};
 
 // console.log(limitedServings([], 3) === false)
 // console.log(limitedServings(['Joe', 'Bart', 'Larry', 'Joe', 'Carl', 'Doug', 'Joe'], 2) === true)
@@ -1072,42 +1072,80 @@ Explanation: There are 3 pairs of elements with a minimum absolute difference of
 */
 
 const minAbsDiffPairs = (arr) => {
-  arr.sort((a,b) => a-b);
+  arr.sort((a, b) => a - b);
 
   let minDiff = Infinity;
   let minDiffPairs = [];
 
-  for(let i = 0; i < arr.length; i++) {
-    for(let j = i + 1; j < arr.length; j++) {
+  for (let i = 0; i < arr.length; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
       const currDiff = Math.abs(arr[i] - arr[j]);
-      if(currDiff < minDiff) {
+      if (currDiff < minDiff) {
         minDiff = currDiff;
-        minDiffPairs = [[arr[i],arr[j]]];
-      }else if(currDiff === minDiff) {
-        minDiffPairs.push([arr[i],arr[j]]);
-      }else{
+        minDiffPairs = [[arr[i], arr[j]]];
+      } else if (currDiff === minDiff) {
+        minDiffPairs.push([arr[i], arr[j]]);
+      } else {
         break;
       }
     }
   }
 
   return minDiffPairs;
-}
+};
 
-let arr = [1,3,6,10,15]
-console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[1,3]]")
+// let arr = [1,3,6,10,15]
+// console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[1,3]]")
 
-arr = [3,8,-10,23,19,-4,-14,27]
-console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[-14,-10],[19,23],[23,27]]")
+// arr = [3,8,-10,23,19,-4,-14,27]
+// console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[-14,-10],[19,23],[23,27]]")
 
-arr = [4,2,1,3]
-console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[1,2],[2,3],[3,4]]")
+// arr = [4,2,1,3]
+// console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[1,2],[2,3],[3,4]]")
 
-arr = [1,3,6,7,10,15]
-console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[6,7]]")
+// arr = [1,3,6,7,10,15]
+// console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[6,7]]")
 
-arr = [5,15]
-console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[5,15]]")
+// arr = [5,15]
+// console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[5,15]]")
 
-arr = [15,5]
-console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[5,15]]")
+// arr = [15,5]
+// console.log(JSON.stringify(minAbsDiffPairs(arr)) === "[[5,15]]")
+
+/*
+
+Given a target integer *X*, iterate from 1 to *X* and return a matrix sequence where each array starts with 1 and goes up to the current iteration. 
+Each iteration should increment the array size and values until it reaches *X*.
+
+[
+[1],
+[1, 2], 
+[1, 2, 3],
+[1, 2, 3, 4],
+[1, 2, 3, 4, 5],
+...
+...
+...
+[1, 2, 3, ..., X]
+]
+
+Example(s)
+generateSequence1(2) == [[1], [1,2]]
+generateSequence1(3) == [[1], [1,2], [1,2,3]]
+ 
+*/
+
+const generateSequence1 = (target) => {
+  let result = [[1]];
+  let currArr = [1];
+
+  for (let i = 0; i < target -1; i++) {
+    currArr.push(currArr[currArr.length - 1] + 1);
+    result.push([...currArr]);
+  }
+
+  return result;
+};
+
+console.log(generateSequence1(2)); //== [[1], [1,2]]
+console.log(generateSequence1(3)); //== [[1], [1,2], [1,2,3]]

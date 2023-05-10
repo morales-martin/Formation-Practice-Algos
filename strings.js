@@ -193,6 +193,105 @@ const parenBit = (string, idx = 0, start = 0) => {
   return parenBit(string, idx + 1, newStart);
 };
 
-console.log(parenBit("xyz(abc)123") == "(abc)");
-console.log(parenBit("x(hello)") == "(hello)");
-console.log(parenBit("(xy)1") == "(xy)");
+// console.log(parenBit("xyz(abc)123") == "(abc)");
+// console.log(parenBit("x(hello)") == "(hello)");
+// console.log(parenBit("(xy)1") == "(xy)");
+
+/*
+'''
+Generate all plus & minus expressions that equals target
+
+Given a string that contains only digits from 0 to 9, and an integer value, *target*. Print all expressions which evaluate to *target* using the plus(+) and minus(-) binary operators between the digits.
+
+You will likely need a helper function to recurse. You can use a loop within your recursive function because we're not monsters.
+ 
+
+EXAMPLE(S)
+generateExprs("123", 6) == ['1 + 2 + 3']
+generateExprs("125", 7) == ['12 - 5']
+generateExprs("420", 420) == ['420']
+generateExprs("1210", 2) == ['1 + 2 - 1 + 0','1 + 2 - 1 - 0','12 - 10']
+ 
+
+FUNCTION SIGNATURE
+function generateExprs(seq, target) {
+def generateExprs(seq: str, target: int) -> None:
+
+'''
+*/
+
+const generateExprs = (seq, target) => {
+  let results = [];
+  let subs = [];
+
+  let stack = [];
+  const generateSubs = (idx = 0, sum = 0) => {
+    subs.push(parseInt(stack.join("")));
+
+    for (let i = idx; i < seq.length; i++) {
+      stack.push(seq[i]);
+      generateSubs(i + 1);
+      stack.pop();
+    }
+  };
+  generateSubs();
+
+  return subs;
+};
+
+// generateExprs("123", 6);
+// console.log(generateExprs("1210", 2));
+
+/*
+A game developer is creating an online, competitive anagram game where friends can play against each other. 
+The game's objective is to create as many anagrams as possible from a random string shown on the screen. 
+Given the challenge word, 'displayedWord', and the user input, 'userWord', determine if the user input a valid anagram. 
+
+What would your algorithm look like using built-in functions to simplify the implementation, how about without?
+An anagram is a word formed by rearranging the letters of another word using all the original letters exactly once. 
+For example, the words 'opts', 'post', 'pots', 'spot', 'stop', and 'tops' are all anagrams of each other.
+As a follow-up, the game developer wants to create a custom anagram dictionary in memory to speed up their
+ game performance by getting the list of anagrams for a word in less than O(N) time, where N is the length of the word list. 
+ Given a long list of words, create a class to represent the anagram dictionary. Then, implement a method that accepts a word 
+ and returns a list of the anagrams.
+
+Example(s)
+isAnagram("coat", "taco") == True
+isAnagram("steak", "skate") == True
+isAnagram("pots", "stop") == True
+isAnagram("stop", "taco") == False
+
+dictionary = AnagramDictionary(["pots", "stop", "cat", "act", "tops", "opts", "post", "spot"])
+dictionary.getAnagramWords("tac") == ["cat", "act"]
+
+
+🛠️ IMPLEMENT
+def isAnagram(displayedWord: str, userWord: str) -> bool:
+
+*/
+
+const isAnagram = (displayedWord, userWord) => {
+  let freqMap = new Map();
+
+  for (const char of displayedWord) {
+    let count = freqMap.get(char) || 0;
+    freqMap.set(char, count + 1);
+  }
+
+  for (const char of userWord) {
+    let count = freqMap.get(char) || 0;
+    if (count >= 1) {
+      freqMap.set(char, count - 1);
+    }
+  }
+
+  for (const [char, freq] of freqMap) {
+    if (freq > 0) return false;
+  }
+  return true;
+};
+
+console.log(isAnagram("coat", "taco") == true);
+console.log(isAnagram("steak", "skate") == true);
+console.log(isAnagram("pots", "stop") == true);
+console.log(isAnagram("stop", "taco") == false);
